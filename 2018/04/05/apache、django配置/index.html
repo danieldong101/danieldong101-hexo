@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django,Apache,mod_wsgi," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前提该笔记使用的相关软件的版本号：  Python - Python 3.6.4 32位 Django - Django 2.0 Apache - Apache 2.4.33 32位 mod_wsgi - mod_wsgi-4.6.4+ap24vc14-cp36-cp36m win32.whl  在下载安装时要注意他们之间的版本对应，否则会配置失败，下面会提到这一点。 Python 3.6.4版本">
+<meta name="keywords" content="Django,Apache,mod_wsgi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="apache、django配置">
+<meta property="og:url" content="http://teelli.com/2018/04/05/apache、django配置/index.html">
+<meta property="og:site_name" content="Daniel&#39;s Page">
+<meta property="og:description" content="前提该笔记使用的相关软件的版本号：  Python - Python 3.6.4 32位 Django - Django 2.0 Apache - Apache 2.4.33 32位 mod_wsgi - mod_wsgi-4.6.4+ap24vc14-cp36-cp36m win32.whl  在下载安装时要注意他们之间的版本对应，否则会配置失败，下面会提到这一点。 Python 3.6.4版本">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://teelli.com/2018/04/05/apache、django配置/apache、django配置/1.png">
+<meta property="og:image" content="http://teelli.com/2018/04/05/apache、django配置/apache、django配置/2.png">
+<meta property="og:image" content="http://teelli.com/2018/04/05/apache、django配置/apache、django配置/3.png">
+<meta property="og:image" content="http://teelli.com/2018/04/05/apache、django配置/apache、django配置/4.png">
+<meta property="og:updated_time" content="2018-05-02T14:23:06.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="apache、django配置">
+<meta name="twitter:description" content="前提该笔记使用的相关软件的版本号：  Python - Python 3.6.4 32位 Django - Django 2.0 Apache - Apache 2.4.33 32位 mod_wsgi - mod_wsgi-4.6.4+ap24vc14-cp36-cp36m win32.whl  在下载安装时要注意他们之间的版本对应，否则会配置失败，下面会提到这一点。 Python 3.6.4版本">
+<meta name="twitter:image" content="http://teelli.com/2018/04/05/apache、django配置/apache、django配置/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://teelli.com/2018/04/05/apache、django配置/"/>
+
+
+
+
+
+  <title>apache、django配置 | Daniel's Page</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-116232772-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Daniel's Page</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">集沙成塔，积水成河</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://teelli.com/2018/04/05/apache、django配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Daniel Dong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Daniel's Page">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">apache、django配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-05T07:06:14+08:00">
+                2018-04-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h4><p>该笔记使用的相关软件的版本号：</p>
+<ul>
+<li>Python - Python 3.6.4 32位</li>
+<li>Django - Django 2.0</li>
+<li>Apache - Apache 2.4.33 32位</li>
+<li>mod_wsgi - mod_wsgi-4.6.4+ap24vc14-cp36-cp36m win32.whl</li>
+</ul>
+<p>在下载安装时要注意他们之间的版本对应，否则会配置失败，下面会提到这一点。</p>
+<p>Python 3.6.4版本对应的Visual C++的版本号为VC14，这个版本号可以通过在命令行直接运行<code>python</code>来查看，运行该命令后会输出下面信息：</p>
+<p><code>Python 3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:04:45) [MSC v.1900 32 bit (Intel)] on win32</code></p>
+<p>其中MSC v.1900对应的就是Visual C++的版本号信息，其对应关系如下：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">version</span><br><span class="line">Visual C++ 4.x                  MSC_VER=1000</span><br><span class="line">Visual C++ 5                    MSC_VER=1100</span><br><span class="line">Visual C++ 6                    MSC_VER=1200</span><br><span class="line">Visual C++ .NET                 MSC_VER=1300</span><br><span class="line">Visual C++ .NET 2003            MSC_VER=1310</span><br><span class="line">Visual C++ 2005  (8.0)          MSC_VER=1400</span><br><span class="line">Visual C++ 2008  (9.0)          MSC_VER=1500</span><br><span class="line">Visual C++ 2010 (10.0)          MSC_VER=1600</span><br><span class="line">Visual C++ 2012 (11.0)          MSC_VER=1700</span><br><span class="line">Visual C++ 2013 (12.0)          MSC_VER=1800</span><br><span class="line">Visual C++ 2015 (14.0)          MSC_VER=1900</span><br></pre></td></tr></table></figure>
+<p>知道了Python的版本以及对应的VC版本号，下面在下载Apache以及mod_wsgi是，都需要下载对应的版本，否则会出现错误。</p>
+<h4 id="Python和Django安装"><a href="#Python和Django安装" class="headerlink" title="Python和Django安装"></a>Python和Django安装</h4><p><a href="https://www.python.org/getit/" target="_blank" rel="noopener">python安装包</a>，下载后直接安装。</p>
+<p>在命令后运行<code>pip3 install Django</code>来安装Django。</p>
+<h4 id="Apache安装"><a href="#Apache安装" class="headerlink" title="Apache安装"></a>Apache安装</h4><p><a href="http://httpd.apache.org/" target="_blank" rel="noopener">apache官网</a></p>
+<p>在Apache官网下载跟Python版本对应的安装包，例如httpd-2.4.33-x86-vc14.zip，就是我们现在需要下载的版本。</p>
+<ul>
+<li><p>下载好的文件不需安装，解压好后放在相应路径即可，例如我们放在D:/Apache24。</p>
+</li>
+<li><p>打开D:\Apache24\conf\httpd.conf文件，找到ServerRoot这一项，将后面的路径更改为 “D:/Apache24”，然后保存退出。</p>
+</li>
+<li><p>安装主服务httpd.exe，在CMD命令行输入<code>D:\Apache24\bin\httpd.exe -k install -n apache</code>，然后回车，如果安装正确的话，会出现下面信息，如果有错误信息，则根据错误信息查找原因。</p>
+<p><img src="apache、django配置/1.png" alt="正确信息"></p>
+</li>
+<li><p>在D:\Apache24\bin\文件中打开ApacheMonitor.exe，如下图，打击start启动服务，如果没有错误提示，apache的绿色灯会点亮，说明服务已经开始运行。</p>
+<p><img src="apache、django配置/2.png" alt="apachemonitor.exe"></p>
+</li>
+<li><p>在浏览器里输入<code>http://localhost</code>，会显示<code>It&#39;s works</code>，说明安装成功。</p>
+</li>
+</ul>
+<h4 id="mod-wsgi安装"><a href="#mod-wsgi安装" class="headerlink" title="mod_wsgi安装"></a>mod_wsgi安装</h4><p><a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi" target="_blank" rel="noopener">mod_wsgi Python的插件下载地址</a></p>
+<ul>
+<li><p>这里我们选择下载<strong>mod_wsgi‑4.6.4+ap24vc14‑cp36‑cp36m‑win32.whl</strong>，也就是对应的Apache版本为2.4，VC版本为14，Python版本为3.6.</p>
+</li>
+<li><p>把下载的.whl文件复制到python\Scripts下</p>
+</li>
+<li><p>然后运行命令行命令<code>pip3 install &quot;mod_wsgi‑4.6.4+ap24vc14‑cp36‑cp36m‑win32.whl&quot;</code></p>
+</li>
+<li><p>安装完成后在\scripts文件夹下运行命令<code>mod_wsgi-express module-config</code>，会提示下面命令，把这三行信息复制下来</p>
+<p><img src="apache、django配置/3.png" alt="提示命令"></p>
+</li>
+</ul>
+<h4 id="httpd-conf配置更改"><a href="#httpd-conf配置更改" class="headerlink" title="httpd.conf配置更改"></a>httpd.conf配置更改</h4><p>打开D:\Apache24\conf\httpd.conf文件，将上面复制的信息放在该文件的末尾，然后更改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#mod_wsgi设置,这里的三行信息是通过上面运行mod_wsgi-express module-config命令后的提示信息。</span><br><span class="line">LoadFile &quot;d:/python/python36.dll&quot;</span><br><span class="line">LoadModule wsgi_module &quot;d:/python/lib/site-packages/mod_wsgi/server/mod_wsgi.cp36-win32.pyd&quot;</span><br><span class="line">WSGIPythonHome &quot;d:/python&quot; </span><br><span class="line"></span><br><span class="line">#指定website的wsgi.py配置文件路径  </span><br><span class="line">WSGIScriptAlias / E:/python/forextool/forextool/wsgi.py  #这里对应Django工程文件里的wsgi.py文件</span><br><span class="line">#指定项目路径  </span><br><span class="line">WSGIPythonPath  E:/python/forextool  #这里对应Django的项目路径</span><br><span class="line">&lt;Directory E:/python/forextool&gt;   #这里对应Django的项目路径</span><br><span class="line">&lt;Files wsgi.py&gt;  </span><br><span class="line">    Require all granted  </span><br><span class="line">&lt;/Files&gt;  </span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>经过上面步骤后，在浏览器里输入<code>http://localhost</code>，会显示Django项目界面。</strong></p>
+<h4 id="admin界面的css文件丢失解决方法"><a href="#admin界面的css文件丢失解决方法" class="headerlink" title="admin界面的css文件丢失解决方法"></a>admin界面的css文件丢失解决方法</h4><p>配置完之后通常会出现admin界面的css文件丢失的情况，这是打开admin界面是<code>http://localhost/admin</code>会出现下面显示.</p>
+<p><img src="apache、django配置/4.png" alt="css丢失"></p>
+<ul>
+<li><p>首先确认INSTALLED_APPS列表里面有<code>&#39;django.contrib.staticfiles&#39;,</code>然后在setting.py文件里添加下面两句。</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">STATIC_ROOT = os.path.join(BASE_DIR, &apos;static&apos;)</span><br><span class="line">STATIC_URL = &apos;/static/&apos;</span><br></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>运行<code>python manage.py collectstatic</code>命令，这样就会在工程目录下生成一个static文件夹，例如<code>F:/github/django-study/mysite/static/</code> ，里面保存有需要的静态文件</p>
+</li>
+<li><p>打开apache的配置文件httpd.conf，在最后添加如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Alias /static/ &quot;F:/github/django-study/mysite/static/&quot;</span><br><span class="line">&lt;Directory &quot;F:/github/django-study/mysite/static/&quot;&gt; </span><br><span class="line">    Require all granted </span><br><span class="line">&lt;/Directory&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启Apache即可</p>
+</li>
+</ul>
+<p><a href="https://blog.csdn.net/chao_8023/article/details/74495116" target="_blank" rel="noopener">Windows上Python3.6环境django部署到Apache服务器</a></p>
+<p><a href="https://blog.csdn.net/caoshangpa/article/details/52943672" target="_blank" rel="noopener">Apache安装参考</a></p>
+<p><a href="http://www.cnblogs.com/zhaojia-dream/p/4055912.html" target="_blank" rel="noopener">admin界面的css丢失解决方法</a></p>
+<p>—EOF—</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/Apache/" rel="tag"># Apache</a>
+          
+            <a href="/tags/mod-wsgi/" rel="tag"># mod_wsgi</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/20/Django以及MySql/" rel="next" title="Django以及MySql">
+                <i class="fa fa-chevron-left"></i> Django以及MySql
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Daniel Dong" />
+            
+              <p class="site-author-name" itemprop="name">Daniel Dong</p>
+              <p class="site-description motion-element" itemprop="description">技术积累</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#前提"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Python和Django安装"><span class="nav-number">2.</span> <span class="nav-text">Python和Django安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Apache安装"><span class="nav-number">3.</span> <span class="nav-text">Apache安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mod-wsgi安装"><span class="nav-number">4.</span> <span class="nav-text">mod_wsgi安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#httpd-conf配置更改"><span class="nav-number">5.</span> <span class="nav-text">httpd.conf配置更改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#admin界面的css文件丢失解决方法"><span class="nav-number">6.</span> <span class="nav-text">admin界面的css文件丢失解决方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Daniel Dong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
